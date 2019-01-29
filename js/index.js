@@ -54,47 +54,32 @@ closeBtn.addEventListener('click', () => {
   overlay.style.display = 'none';
 });
 
-const bus = document.querySelector('#bus-img');
-const map = document.querySelector('#map-img');
-// main image of bus listen to dragstart
-let item = '';
+// add event listeners for drag and drop to each image to allow images to be swapped
+const images = document.querySelectorAll('img');
 
-bus.addEventListener('dragstart', (e) => {
-  item = e.target.src;
-  e.target.style.opacity = 0;
-});
+let draggedItem = '';
+let draggedItemSrc = '';
 
-// main image listen to dragstop
-bus.addEventListener('dragend', (e) => {
-  e.target.style.opacity = 1;
-});
+images.forEach((image) => {
+  image.addEventListener('dragstart', (e) => {
+    draggedItem = e.target.id;
+    draggedItemSrc = e.target.src;
+    e.target.style.opacity = 0;
+  });
 
-map.addEventListener('dragover', (e) => {
-  // prevent default to allow drop
-  e.preventDefault();
-}, false);
+  image.addEventListener('dragend', (e) => {
+    draggedItem = '';
+    draggedItemSrc = '';
+    e.target.style.opacity = 1;
+  });
 
-map.addEventListener('drop', (e) => {
-  bus.setAttribute('src', e.target.src);
-  e.target.setAttribute('src', item);
-});
+  image.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  }, false);
 
-map.addEventListener('dragstart', (e) => {
-  item = e.target.src;
-  e.target.style.opacity = 0;
-});
-
-// map image listen to dragstop
-map.addEventListener('dragend', (e) => {
-  e.target.style.opacity = 1;
-});
-
-bus.addEventListener('dragover', (e) => {
-  // prevent default to allow drop
-  e.preventDefault();
-}, false);
-
-bus.addEventListener('drop', (e) => {
-  map.setAttribute('src', e.target.src);
-  e.target.setAttribute('src', item);
+  image.addEventListener('drop', (e) => {
+    const replace = document.querySelector(`#${draggedItem}`);
+    replace.setAttribute('src', e.target.src);
+    e.target.setAttribute('src', draggedItemSrc);
+  });
 });
