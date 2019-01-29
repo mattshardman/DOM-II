@@ -46,10 +46,38 @@ document.addEventListener('scroll', (e) => {
 });
 
 // add overlay element
-sunBtn.addEventListener('click', (e) => {
+sunBtn.addEventListener('dblclick', () => {
   overlay.style.display = 'flex';
 });
 
-closeBtn.addEventListener('click', (e) => {
+closeBtn.addEventListener('click', () => {
   overlay.style.display = 'none';
+});
+
+const bus = document.querySelector('#bus-img');
+
+// bus.addEventListener('drag', (e) => {
+//   console.log('dragged like a mo fo');
+// });
+
+// main image of bus listen to dragstart
+bus.addEventListener('dragstart', (e) => {
+  console.log(e);
+  e.target.style.opacity = 0;
+});
+
+// main image listen to dragstop
+bus.addEventListener('dragend', (e) => {
+  console.log(e.clientX);
+  if (e.clientX > 1200) {
+    console.log('like');
+    return null;
+  }
+
+  if (e.clientX < 800) {
+    console.log('hate');
+    return null;
+  }
+
+  e.target.style.opacity = 1;
 });
