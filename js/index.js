@@ -55,29 +55,46 @@ closeBtn.addEventListener('click', () => {
 });
 
 const bus = document.querySelector('#bus-img');
-
-// bus.addEventListener('drag', (e) => {
-//   console.log('dragged like a mo fo');
-// });
-
+const map = document.querySelector('#map-img');
 // main image of bus listen to dragstart
+let item = '';
+
 bus.addEventListener('dragstart', (e) => {
-  console.log(e);
+  item = e.target.src;
   e.target.style.opacity = 0;
 });
 
 // main image listen to dragstop
 bus.addEventListener('dragend', (e) => {
-  console.log(e.clientX);
-  if (e.clientX > 1200) {
-    console.log('like');
-    return null;
-  }
-
-  if (e.clientX < 800) {
-    console.log('hate');
-    return null;
-  }
-
   e.target.style.opacity = 1;
+});
+
+map.addEventListener('dragover', (e) => {
+  // prevent default to allow drop
+  e.preventDefault();
+}, false);
+
+map.addEventListener('drop', (e) => {
+  bus.setAttribute('src', e.target.src);
+  e.target.setAttribute('src', item);
+});
+
+map.addEventListener('dragstart', (e) => {
+  item = e.target.src;
+  e.target.style.opacity = 0;
+});
+
+// map image listen to dragstop
+map.addEventListener('dragend', (e) => {
+  e.target.style.opacity = 1;
+});
+
+bus.addEventListener('dragover', (e) => {
+  // prevent default to allow drop
+  e.preventDefault();
+}, false);
+
+bus.addEventListener('drop', (e) => {
+  map.setAttribute('src', e.target.src);
+  e.target.setAttribute('src', item);
 });
