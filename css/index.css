@@ -250,7 +250,12 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  text-align: center;
   background: #fff;
+}
+.overlay .overlay-content h1 {
+  text-align: center;
 }
 .overlay button {
   position: absolute;

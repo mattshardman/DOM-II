@@ -48,6 +48,7 @@ document.addEventListener('scroll', (e) => {
 // add overlay element
 sunBtn.addEventListener('dblclick', () => {
   overlay.style.display = 'flex';
+  overlay.querySelector('h1').textContent = "You've won a prize.";
 });
 
 closeBtn.addEventListener('click', () => {
@@ -55,31 +56,43 @@ closeBtn.addEventListener('click', () => {
 });
 
 // add event listeners for drag and drop to each image to allow images to be swapped
-const images = document.querySelectorAll('img');
+(function dragDrop() {
+  const images = document.querySelectorAll('img');
 
-let draggedItem = '';
-let draggedItemSrc = '';
+  let draggedItem = '';
+  let draggedItemSrc = '';
 
-images.forEach((image) => {
-  image.addEventListener('dragstart', (e) => {
-    draggedItem = e.target.id;
-    draggedItemSrc = e.target.src;
-    e.target.style.opacity = 0;
+  images.forEach((image) => {
+    image.addEventListener('dragstart', (e) => {
+      draggedItem = e.target.id;
+      draggedItemSrc = e.target.src;
+      e.target.style.opacity = 0;
+    });
+
+    image.addEventListener('dragend', (e) => {
+      draggedItem = '';
+      draggedItemSrc = '';
+      e.target.style.opacity = 1;
+    });
+
+    image.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    image.addEventListener('drop', (e) => {
+      const replace = document.querySelector(`#${draggedItem}`);
+      replace.setAttribute('src', e.target.src);
+      e.target.setAttribute('src', draggedItemSrc);
+    });
   });
+}());
 
-  image.addEventListener('dragend', (e) => {
-    draggedItem = '';
-    draggedItemSrc = '';
-    e.target.style.opacity = 1;
-  });
+// copy
+const textElements = document.querySelectorAll('p');
 
-  image.addEventListener('dragover', (e) => {
-    e.preventDefault();
-  }, false);
-
-  image.addEventListener('drop', (e) => {
-    const replace = document.querySelector(`#${draggedItem}`);
-    replace.setAttribute('src', e.target.src);
-    e.target.setAttribute('src', draggedItemSrc);
+textElements.forEach((text) => {
+  text.addEventListener('copy', (e) => {
+    overlay.style.display = 'flex';
+    overlay.querySelector('h1').textContent = `You copied this text from this paragraph: ${e.target.textContent}`;
   });
 });
