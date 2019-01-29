@@ -96,3 +96,13 @@ textElements.forEach((text) => {
     overlay.querySelector('h1').textContent = `You copied this text from this paragraph: ${e.target.textContent}`;
   });
 });
+
+// resize
+window.addEventListener('resize', () => {
+  const paras = document.querySelectorAll('p');
+  if (window.innerWidth < 900) {
+    paras.forEach(p => p.style.fontSize = '12px');
+    return null;
+  }
+  paras.forEach(p => p.style.fontSize = '17px');
+});
